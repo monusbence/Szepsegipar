@@ -58,7 +58,7 @@
         <!-- Rögzítés gomb -->
         <Button Content="Rögzítés" Width="100" Height="30" Grid.Row="3" 
             HorizontalAlignment="Center" VerticalAlignment="Center" 
-            Margin="0,20,0,0" Name="RogzitesGomb" 
+            Margin="0,20,0,0" Name="RogzitesGomb" Click="RogzitesGomb_Click"
             Command="{Binding BookCommand}">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
