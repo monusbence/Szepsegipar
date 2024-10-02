@@ -5,60 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Szepsegipar"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="700">
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        Title="Szépségszalon" Height="500" Width="400"
+        MinHeight="500" MinWidth="400" SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Title -->
-        <TextBlock Grid.ColumnSpan="3" Text="Szépségszalon" FontSize="24" FontWeight="Bold"
-               HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-100,0,20" />
+        <TextBlock Grid.Row="0" Text="Szépségszalon" FontSize="20" FontWeight="Bold"
+               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,20" />
 
-        <!-- Szolgáltatás kiválasztása -->
-        <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,30,40,0">
-            <Label Content="Szolgáltatás:" VerticalAlignment="Center"/>
-            <ComboBox Width="200" Margin="10,0,0,0" Name="SzolgaltatasComboBox"
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10">
+            <Label Content="Szolgáltatás:" />
+            <ComboBox Width="200" Name="SzolgaltatasComboBox"
                   ItemsSource="{Binding Services}" SelectedItem="{Binding SelectedService}" 
                   BorderThickness="1" BorderBrush="LightGray" Padding="5" />
         </StackPanel>
 
-        <!-- Dolgozó kiválasztása -->
-        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,30,0,0">
-            <Label Content="Dolgozó:" VerticalAlignment="Center"/>
-            <ComboBox Width="200" Margin="30,0,0,0" Name="DolgozoComboBox"
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10">
+            <Label Content="Dolgozó:" />
+            <ComboBox Width="200" Name="DolgozoComboBox"
                   ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" 
                   BorderThickness="1" BorderBrush="LightGray" Padding="5" />
         </StackPanel>
 
-        <!-- Időpont kiválasztás: Dátum és Idő -->
-        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0">
-            <StackPanel Orientation="Vertical" Margin="0,0,20,0">
-                <Label Content="Dátum" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker Name="DatumPicker" Width="200" 
+        <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10">
+            <Label Content="Dátum" />
+            <DatePicker Name="DatumPicker" Width="200" 
                          SelectedDate="{Binding SelectedDate}" 
                          BorderThickness="1" BorderBrush="LightGray" Padding="5"/>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <Label Content="Idő" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <ComboBox Name="IdoComboBox" Width="200" 
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10">
+            <Label Content="Idő" />
+            <ComboBox Name="IdoComboBox" Width="200" 
                       SelectedItem="{Binding SelectedTime}" 
                       ItemsSource="{Binding AvailableTimes}" 
                       BorderThickness="1" BorderBrush="LightGray" Padding="5"/>
-            </StackPanel>
         </StackPanel>
 
-        <!-- Rögzítés gomb -->
-        <Button Content="Rögzítés" Width="100" Height="30" Grid.Row="3" 
+        <Button Grid.Row="5" Content="Rögzítés" Width="100" Height="30" 
             HorizontalAlignment="Center" VerticalAlignment="Center" 
-            Margin="0,20,0,0" Name="RogzitesGomb" Click="RogzitesGomb_Click"
+            Margin="0,10,0,20" Name="RogzitesGomb" Click="RogzitesGomb_Click"
             Command="{Binding BookCommand}">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
@@ -69,5 +62,4 @@
             </Button.Template>
         </Button>
     </Grid>
-
 </Window>
