@@ -20,9 +20,12 @@ namespace Szepsegipar
             // Tesztadatok feltöltése
             szolgaltatasok.Add(new Szolgaltatas { Szolgaltatas_Id = 1, Szolgaltatas_Kategoria = "Hajvágás", Szolgaltatas_Ar = 5000 });
             szolgaltatasok.Add(new Szolgaltatas { Szolgaltatas_Id = 2, Szolgaltatas_Kategoria = "Masszázs", Szolgaltatas_Ar = 10000 });
+            szolgaltatasok.Add(new Szolgaltatas { Szolgaltatas_Id = 3, Szolgaltatas_Kategoria = "Manikűr", Szolgaltatas_Ar = 10000 });
+            szolgaltatasok.Add(new Szolgaltatas { Szolgaltatas_Id = 4, Szolgaltatas_Kategoria = "Pedikűr", Szolgaltatas_Ar = 10000 });
 
-            dolgozok.Add(new Dolgozo { Dolgozo_Id = 1, Dolgozo_VezetekNev = "Kovács", Dolgozo_KeresztNev = "Anna", Statusz = true });
-            dolgozok.Add(new Dolgozo { Dolgozo_Id = 2, Dolgozo_VezetekNev = "Nagy", Dolgozo_KeresztNev = "Béla", Statusz = true });
+            dolgozok.Add(new Dolgozo { Dolgozo_Id = 1, Dolgozo_VezetekNev = "Dodi", Dolgozo_KeresztNev = "Király", Statusz = true });
+            dolgozok.Add(new Dolgozo { Dolgozo_Id = 2, Dolgozo_VezetekNev = "Mónus", Dolgozo_KeresztNev = "Bence", Statusz = true });
+            dolgozok.Add(new Dolgozo { Dolgozo_Id = 2, Dolgozo_VezetekNev = "Taki", Dolgozo_KeresztNev = "Bazsi", Statusz = true });
 
             ugyfelek.Add(new Ugyfel { Ugyfel_Id = 1, Ugyfel_VezetekNev = "Tóth", Ugyfel_KeresztNev = "Gábor" });
             ugyfelek.Add(new Ugyfel { Ugyfel_Id = 2, Ugyfel_VezetekNev = "Szabó", Ugyfel_KeresztNev = "Judit" });
