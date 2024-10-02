@@ -39,8 +39,8 @@ namespace Szepsegipar
 
         private void FeltoltesIdoComboBox()
         {
-            TimeSpan startTime = new TimeSpan(0, 0, 0);  // 00:00
-            TimeSpan endTime = new TimeSpan(23, 30, 0);  // 23:30
+            TimeSpan startTime = new TimeSpan(8, 0, 0);  // 00:00
+            TimeSpan endTime = new TimeSpan(16, 0, 0);  // 23:30
             TimeSpan interval = new TimeSpan(0, 30, 0);  // 30 perc
 
             for (TimeSpan time = startTime; time <= endTime; time += interval)
