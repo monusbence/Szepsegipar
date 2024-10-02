@@ -77,7 +77,7 @@ namespace Szepsegipar
             }
 
             // 1 óra hosszúságú szolgáltatás például
-            DateTime befejezes = kezdes.AddHours(1);
+            DateTime befejezes = kezdes.AddHours(0.5);
 
             // Foglalás rögzítése
             bool sikeres = foglalasService.RogzitesFoglalas(ugyfelId, dolgozoId, szolgaltatasId, kezdes, befejezes);
