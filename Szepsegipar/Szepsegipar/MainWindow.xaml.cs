@@ -76,7 +76,6 @@ namespace Szepsegipar
                 return;
             }
 
-            // 1 óra hosszúságú szolgáltatás például
             DateTime befejezes = kezdes.AddHours(0.5);
 
             // Foglalás rögzítése
