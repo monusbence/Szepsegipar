@@ -68,6 +68,13 @@ namespace Szepsegipar
             TimeSpan kezdesIdo = TimeSpan.Parse(IdoComboBox.SelectedItem.ToString());
             DateTime kezdes = kezdesDatum.Add(kezdesIdo);
 
+            // Ellenőrizzük, hogy a foglalás időpontja nem korábbi, mint a jelenlegi időpont
+            if (kezdes < DateTime.Now)
+            {
+                MessageBox.Show("A foglalás időpontja nem lehet a jelenlegi időpont előtt!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             // Szolgáltatás időtartam meghatározása
             var selectedSzolgaltatas = foglalasService.GetSzolgaltatasok().FirstOrDefault(s => s.Szolgaltatas_Id == szolgaltatasId);
             if (selectedSzolgaltatas == null)
@@ -76,6 +83,7 @@ namespace Szepsegipar
                 return;
             }
 
+            // Befejezési időpont kiszámítása (pl. fél óra a szolgáltatás időtartama)
             DateTime befejezes = kezdes.AddHours(0.5);
 
             // Foglalás rögzítése
@@ -90,6 +98,7 @@ namespace Szepsegipar
                 MessageBox.Show("A megadott időpontra már van foglalás!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-    }
 
+
+    }
 }
