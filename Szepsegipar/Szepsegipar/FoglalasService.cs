@@ -27,8 +27,7 @@ namespace Szepsegipar
             dolgozok.Add(new Dolgozo { Dolgozo_Id = 2, Dolgozo_VezetekNev = "Mónus", Dolgozo_KeresztNev = "Bence", Statusz = true });
             dolgozok.Add(new Dolgozo { Dolgozo_Id = 2, Dolgozo_VezetekNev = "Taki", Dolgozo_KeresztNev = "Bazsi", Statusz = true });
 
-            ugyfelek.Add(new Ugyfel { Ugyfel_Id = 1, Ugyfel_VezetekNev = "Tóth", Ugyfel_KeresztNev = "Gábor" });
-            ugyfelek.Add(new Ugyfel { Ugyfel_Id = 2, Ugyfel_VezetekNev = "Szabó", Ugyfel_KeresztNev = "Judit" });
+            
         }
 
         public List<Szolgaltatas> GetSzolgaltatasok()
