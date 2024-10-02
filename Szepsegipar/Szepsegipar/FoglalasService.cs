@@ -25,7 +25,7 @@ namespace Szepsegipar
 
             dolgozok.Add(new Dolgozo { Dolgozo_Id = 1, Dolgozo_VezetekNev = "Dodi", Dolgozo_KeresztNev = "Király", Statusz = true });
             dolgozok.Add(new Dolgozo { Dolgozo_Id = 2, Dolgozo_VezetekNev = "Mónus", Dolgozo_KeresztNev = "Bence", Statusz = true });
-            dolgozok.Add(new Dolgozo { Dolgozo_Id = 2, Dolgozo_VezetekNev = "Taki", Dolgozo_KeresztNev = "Bazsi", Statusz = true });
+            dolgozok.Add(new Dolgozo { Dolgozo_Id = 3, Dolgozo_VezetekNev = "Taki", Dolgozo_KeresztNev = "Bazsi", Statusz = true });
 
             
         }
