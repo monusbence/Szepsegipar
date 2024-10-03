@@ -18,8 +18,8 @@ namespace Szepsegipar
     public partial class MainWindow : Window
     {
         public DatabaseService databaseService;
-         List<Dolgozo> dolgozok;
-         List<Szolgaltatas> szolgaltatasok;
+       public  List<Dolgozo> dolgozok;
+        public List<Szolgaltatas> szolgaltatasok;
 
         public MainWindow()
         {

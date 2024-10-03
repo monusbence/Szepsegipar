@@ -15,7 +15,7 @@ namespace Szepsegipar
         }
 
         // Dolgozók lekérdezése
-         List<Dolgozo>  GetDolgozok()
+         public List<Dolgozo>  GetDolgozok()
         {
             List<Dolgozo> dolgozok = new List<Dolgozo>();
 
@@ -44,7 +44,7 @@ namespace Szepsegipar
         }
 
         // Szolgáltatások lekérdezése
-         List<Szolgaltatas> GetSzolgaltatasok()
+        public List<Szolgaltatas> GetSzolgaltatasok()
         {
             List<Szolgaltatas> szolgaltatasok = new List<Szolgaltatas>();
 
