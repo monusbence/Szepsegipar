@@ -7,7 +7,7 @@ namespace Szepsegipar
 
     public class DatabaseService
     {
-        private string connectionString = "Server=localhost;Database=szepsegszalon;Uid=root;Pwd=password;"; // Állítsd be a saját adatbázis kapcsolatodat
+        private string connectionString = "Server=127.0.0.1;Database=szepsegszalon;";
 
         private MySqlConnection GetConnection()
         {
