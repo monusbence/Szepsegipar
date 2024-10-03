@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SzepsegSzalon
 {
-    internal class Dolgozo
+    public class Dolgozo
     {
 
         public int Dolgozo_Id { get; set; }

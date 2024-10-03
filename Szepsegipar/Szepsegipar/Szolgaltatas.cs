@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SzepsegSzalon
 {
-    internal class Szolgaltatas
+    public class Szolgaltatas
     {
         public int Szolgaltatas_Id { get; set; }
         public string Szolgaltatas_Kategoria { get; set; }
