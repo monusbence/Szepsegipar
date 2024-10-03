@@ -7,7 +7,7 @@ CREATE DATABASE IF NOT EXISTS `szepsegszalon` DEFAULT CHARACTER SET utf8 COLLATE
 USE `szepsegszalon`;
 
 -- Dolgozók tábla létrehozása
-CREATE TABLE `dolgozók` (
+CREATE TABLE IF NOT EXISTS `dolgozók` (
   `D_ID` int(11) NOT NULL AUTO_INCREMENT,
   `D_VezetekNev` varchar(255) DEFAULT NULL,
   `D_KeresztNev` varchar(255) DEFAULT NULL,
@@ -31,7 +31,7 @@ INSERT INTO `dolgozók` (`D_VezetekNev`, `D_KeresztNev`, `D_Telefon`, `D_Email`,
 ('Papp', 'Miklós', '06304443333', 'miklos.papp@example.com', 1, 3, 1);
 
 -- Foglalás tábla létrehozása
-CREATE TABLE `foglalás` (
+CREATE TABLE IF NOT EXISTS `foglalás` (
   `F_ID` int(11) NOT NULL AUTO_INCREMENT,
   `SZ_ID` int(11) DEFAULT NULL,
   `D_ID` int(11) DEFAULT NULL,
@@ -58,7 +58,7 @@ INSERT INTO `foglalás` (`SZ_ID`, `D_ID`, `U_ID`, `F_Kezdes`, `F_Befejezesk`) VA
 (10, 4, 4, 5, '2024-09-27 16:30:00', '2024-09-27 18:30:00');
 
 -- Szolgáltatás tábla létrehozása
-CREATE TABLE `szolgáltatás` (
+CREATE TABLE IF NOT EXISTS `szolgáltatás` (
   `SZ_ID` int(11) NOT NULL AUTO_INCREMENT,
   `SZ_Kategoria` varchar(255) DEFAULT NULL,
   `SZ_Idotartam` int(11) DEFAULT 30, -- 30 perc
@@ -78,7 +78,7 @@ INSERT INTO `szolgáltatás` (`SZ_Kategoria`, `SZ_Idotartam`, `SZ_Ar`) VALUES
 ('Szempillafestés', 30, 3500);
 
 -- Ügyfél tábla létrehozása
-CREATE TABLE `ügyfél` (
+CREATE TABLE IF NOT EXISTS `ügyfél` (
   `U_ID` int(11) NOT NULL AUTO_INCREMENT,
   `U_VezetekNev` varchar(255) DEFAULT NULL,
   `U_KeresztNev` varchar(255) DEFAULT NULL,
@@ -101,8 +101,8 @@ INSERT INTO `ügyfél` (`U_VezetekNev`, `U_KeresztNev`, `U_Telefon`, `U_Email`, 
 
 -- Megkötések a foglalás táblához
 ALTER TABLE `foglalás`
-  ADD CONSTRAINT `foglalás_ibfk_1` FOREIGN KEY (`SZ_ID`) REFERENCES `szolgáltatás` (`SZ_ID`),
-  ADD CONSTRAINT `foglalás_ibfk_2` FOREIGN KEY (`D_ID`) REFERENCES `dolgozók` (`D_ID`),
-  ADD CONSTRAINT `foglalás_ibfk_3` FOREIGN KEY (`U_ID`) REFERENCES `ügyfél` (`U_ID`);
+  ADD CONSTRAINT `foglalás_ibfk_1` FOREIGN KEY (`SZ_ID`) REFERENCES `szolgáltatás` (`SZ_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `foglalás_ibfk_2` FOREIGN KEY (`D_ID`) REFERENCES `dolgozók` (`D_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `foglalás_ibfk_3` FOREIGN KEY (`U_ID`) REFERENCES `ügyfél` (`U_ID`) ON DELETE CASCADE;
 
 COMMIT;
