@@ -1,77 +1,75 @@
 ﻿using MySql.Data.MySqlClient;
 using SzepsegSzalon;
 
-namespace Szepsegipar
+namespace Szepsegipar { 
+
+public class DatabaseService
 {
+    private string connectionString = "Server=127.0.0.1;Database=szepsegszalon; User Id=root; Password=;";
 
-
-    public class DatabaseService
+    private MySqlConnection GetConnection()
     {
-        private string connectionString = "Server=127.0.0.1;Database=szepsegszalon;";
+        return new MySqlConnection(connectionString);
+    }
 
-        private MySqlConnection GetConnection()
+    // Dolgozók lekérdezése
+    public List<Dolgozo> GetDolgozok()
+    {
+        List<Dolgozo> dolgozok = new List<Dolgozo>();
+
+        using (var connection = GetConnection())
         {
-            return new MySqlConnection(connectionString);
-        }
-
-        // Dolgozók lekérdezése
-         public List<Dolgozo>  GetDolgozok()
-        {
-            List<Dolgozo> dolgozok = new List<Dolgozo>();
-
-            using (var connection = GetConnection())
+            connection.Open();
+            string query = "SELECT D_ID, D_VezetekNev, D_KeresztNev FROM dolgozók";
+            using (var command = new MySqlCommand(query, connection))
             {
-                connection.Open();
-                string query = "SELECT Dolgozok_Id, Dolgozok_VezetekNev, Dolgozok_KeresztNev FROM dolgozok";
-                using (var command = new MySqlCommand(query, connection))
+                using (var reader = command.ExecuteReader())
                 {
-                    using (var reader = command.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
+                        dolgozok.Add(new Dolgozo
                         {
-                            dolgozok.Add(new Dolgozo
-                            {
-                                Dolgozo_Id = reader.GetInt32("Dolgozok_Id"),
-                                Dolgozo_VezetekNev = reader.GetString("Dolgozok_VezetekNev"),
-                                Dolgozo_KeresztNev = reader.GetString("Dolgozok_KeresztNev")
-                            });
-                        }
+                            Dolgozo_Id = reader.GetInt32("D_ID"),
+                            Dolgozo_VezetekNev = reader.GetString("D_VezetekNev"),
+                            Dolgozo_KeresztNev = reader.GetString("D_KeresztNev")
+                        });
                     }
                 }
             }
-
-            return dolgozok;
         }
 
-        // Szolgáltatások lekérdezése
-        public List<Szolgaltatas> GetSzolgaltatasok()
-        {
-            List<Szolgaltatas> szolgaltatasok = new List<Szolgaltatas>();
+        return dolgozok;
+    }
 
-            using (var connection = GetConnection())
-            {
-                connection.Open();
-                string query = "SELECT Szolgaltatas_Id, Szolgaltatas_Kategoria, Szolgaltatas_Idotartam, Szolgaltatas_Ar FROM szolgaltatas";
+    // Szolgáltatások lekérdezése
+    public List<Szolgaltatas> GetSzolgaltatasok()
+    {
+        List<Szolgaltatas> szolgaltatasok = new List<Szolgaltatas>();
+
+        using (var connection = GetConnection())
+        {
+            connection.Open();
+                string query = "SELECT SZ_ID, SZ_Kategoria, SZ_Idotartam, SZ_Ar FROM szolgáltatás";
                 using (var command = new MySqlCommand(query, connection))
+            {
+                using (var reader = command.ExecuteReader())
                 {
-                    using (var reader = command.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
                             szolgaltatasok.Add(new Szolgaltatas
                             {
-                                Szolgaltatas_Id = reader.GetInt32("Szolgaltatas_Id"),
-                                Szolgaltatas_Kategoria = reader.GetString("Szolgaltatas_Kategoria"),
-                                Szolgaltatas_Idotartam = reader.GetDateTime("Szolgaltatas_Idotartam"),
-                                Szolgaltatas_Ar = reader.GetInt32("Szolgaltatas_Ar")
+                                Szolgaltatas_Id = reader.GetInt32("SZ_ID"),
+                                Szolgaltatas_Kategoria = reader.GetString("SZ_Kategoria"),
+                                Szolgaltatas_Idotartam = TimeSpan.FromMinutes(reader.GetInt32("SZ_Idotartam")),
+                                Szolgaltatas_Ar = reader.GetInt32("SZ_Ar")
                             });
                         }
-                    }
                 }
             }
-
-            return szolgaltatasok;
         }
+
+        return szolgaltatasok;
+    }
 
         // Foglalás rögzítése
         public bool RogzitesFoglalas(int ugyfelId, int dolgozoId, int szolgaltatasId, DateTime kezdes, DateTime befejezes)
@@ -79,8 +77,34 @@ namespace Szepsegipar
             using (var connection = GetConnection())
             {
                 connection.Open();
-                string query = "INSERT INTO foglalas (Ugyfel_Id, Dolgozok_Id, Szolgaltatas_Id, Foglalas_Kezdes, Foglalas_Befejezes) VALUES (@ugyfelId, @dolgozoId, @szolgaltatasId, @kezdes, @befejezes)";
-                using (var command = new MySqlCommand(query, connection))
+
+                // Ellenőrizzük, van-e már foglalás az adott időpontban
+                string ellenorzesQuery = @"
+            SELECT COUNT(*) 
+            FROM foglalás 
+            WHERE D_ID = @dolgozoId 
+            AND ((@kezdes >= F_Kezdes AND @kezdes < F_Befejezesk) 
+            OR (@befejezes > F_Kezdes AND @befejezes <= F_Befejezesk)
+            OR (@kezdes <= F_Kezdes AND @befejezes >= F_Befejezesk))";
+
+                using (var ellenorzesCommand = new MySqlCommand(ellenorzesQuery, connection))
+                {
+                    ellenorzesCommand.Parameters.AddWithValue("@dolgozoId", dolgozoId);
+                    ellenorzesCommand.Parameters.AddWithValue("@kezdes", kezdes);
+                    ellenorzesCommand.Parameters.AddWithValue("@befejezes", befejezes);
+
+                    int foglaltIdopontok = Convert.ToInt32(ellenorzesCommand.ExecuteScalar());
+
+                    if (foglaltIdopontok > 0)
+                    {
+                        // Ha már van foglalás, visszaadunk false-t, hogy jelezzük a hibát
+                        return false;
+                    }
+                }
+
+                // Ha nincs ütközés, akkor beszúrjuk az új foglalást
+                string insertQuery = "INSERT INTO foglalás (U_ID, D_ID, SZ_ID, F_Kezdes, F_Befejezesk) VALUES (@ugyfelId, @dolgozoId, @szolgaltatasId, @kezdes, @befejezes)";
+                using (var command = new MySqlCommand(insertQuery, connection))
                 {
                     command.Parameters.AddWithValue("@ugyfelId", ugyfelId);
                     command.Parameters.AddWithValue("@dolgozoId", dolgozoId);
@@ -93,7 +117,6 @@ namespace Szepsegipar
                 }
             }
         }
-
-
     }
 }
+

@@ -10,7 +10,7 @@ namespace SzepsegSzalon
     {
         public int Szolgaltatas_Id { get; set; }
         public string Szolgaltatas_Kategoria { get; set; }
-        public DateTime Szolgaltatas_Idotartam { get; set; }
+        public TimeSpan Szolgaltatas_Idotartam { get; set; }
         public int Szolgaltatas_Ar { get; set; }
 
     }

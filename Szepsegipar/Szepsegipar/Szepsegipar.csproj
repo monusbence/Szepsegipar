@@ -12,4 +12,10 @@
     <PackageReference Include="MySql.Data" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="szepsegszalon.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
