@@ -8,47 +8,41 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MySql.Data.MySqlClient;
+using SzepsegSzalon;
+using static Szepsegipar.DatabaseService;
+
 
 namespace Szepsegipar
 {
     public partial class MainWindow : Window
     {
-        private FoglalasService foglalasService = new FoglalasService();
+        public DatabaseService databaseService;
+         List<Dolgozo> dolgozok;
+         List<Szolgaltatas> szolgaltatasok;
 
         public MainWindow()
         {
             InitializeComponent();
-            Feltoltes();
+            databaseService = new DatabaseService();
+            BetoltDolgozok();
+            BetoltSzolgaltatasok();
         }
 
-        private void Feltoltes()
+        private void BetoltDolgozok()
         {
-            // Szolgáltatások ComboBox feltöltése
-            SzolgaltatasComboBox.ItemsSource = foglalasService.GetSzolgaltatasok();
-            SzolgaltatasComboBox.DisplayMemberPath = "Szolgaltatas_Kategoria";
-            SzolgaltatasComboBox.SelectedValuePath = "Szolgaltatas_Id";
-
-            // Dolgozók ComboBox feltöltése
-            DolgozoComboBox.ItemsSource = foglalasService.GetDolgozok();
-            DolgozoComboBox.DisplayMemberPath = "Dolgozo_VezetekNev";
-            DolgozoComboBox.SelectedValuePath = "Dolgozo_Id";
-
-            // Időpontok feltöltése
-            FeltoltesIdoComboBox();
+            dolgozok = databaseService.GetDolgozok();
+            DolgozoComboBox.ItemsSource = dolgozok;
+            DolgozoComboBox.DisplayMemberPath = "Dolgozok_KeresztNev"; // Megjeleníti a dolgozók nevét
+            DolgozoComboBox.SelectedValuePath = "Dolgozok_Id"; // Érték az ID lesz
         }
 
-        private void FeltoltesIdoComboBox()
+        private void BetoltSzolgaltatasok()
         {
-            TimeSpan startTime = new TimeSpan(8, 0, 0);  // 00:00
-            TimeSpan endTime = new TimeSpan(16, 0, 0);  // 23:30
-            TimeSpan interval = new TimeSpan(0, 30, 0);  // 30 perc
-
-            for (TimeSpan time = startTime; time <= endTime; time += interval)
-            {
-                IdoComboBox.Items.Add(time.ToString(@"hh\:mm"));
-            }
-
-            IdoComboBox.SelectedIndex = 0; // Alapértelmezett kiválasztás
+            szolgaltatasok = databaseService.GetSzolgaltatasok();
+            SzolgaltatasComboBox.ItemsSource = szolgaltatasok;
+            SzolgaltatasComboBox.DisplayMemberPath = "Szolgaltatas_Kategoria"; // Megjeleníti a szolgáltatások nevét
+            SzolgaltatasComboBox.SelectedValuePath = "Szolgaltatas_Id"; // Érték az ID lesz
         }
 
         private void RogzitesGomb_Click(object sender, RoutedEventArgs e)
@@ -61,33 +55,32 @@ namespace Szepsegipar
             }
 
             // Adatok lekérése a felületről
-            int ugyfelId = 1; // Feltételezzük, hogy van egy bejelentkezett ügyfél, pl. Ugyfel_Id = 1
+            int ugyfelId = 1; // Feltételezzük, hogy van egy bejelentkezett ügyfél
             int szolgaltatasId = (int)SzolgaltatasComboBox.SelectedValue;
             int dolgozoId = (int)DolgozoComboBox.SelectedValue;
             DateTime kezdesDatum = (DateTime)DatumPicker.SelectedDate;
             TimeSpan kezdesIdo = TimeSpan.Parse(IdoComboBox.SelectedItem.ToString());
             DateTime kezdes = kezdesDatum.Add(kezdesIdo);
 
-            // Ellenőrizzük, hogy a foglalás időpontja nem korábbi, mint a jelenlegi időpont
+            // Ellenőrzés: ne legyen a foglalás korábban, mint a jelenlegi időpont
             if (kezdes < DateTime.Now)
             {
-                MessageBox.Show("A foglalás időpontja nem lehet a jelenlegi időpont előtt!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("A foglalás időpontja nem lehet korábban, mint a jelenlegi idő!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             // Szolgáltatás időtartam meghatározása
-            var selectedSzolgaltatas = foglalasService.GetSzolgaltatasok().FirstOrDefault(s => s.Szolgaltatas_Id == szolgaltatasId);
+            var selectedSzolgaltatas = szolgaltatasok.FirstOrDefault(s => s.Szolgaltatas_Id == szolgaltatasId);
             if (selectedSzolgaltatas == null)
             {
                 MessageBox.Show("Hiba történt a szolgáltatás kiválasztásakor!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            // Befejezési időpont kiszámítása (pl. fél óra a szolgáltatás időtartama)
-            DateTime befejezes = kezdes.AddHours(0.5);
+            DateTime befejezes = kezdes.Add(selectedSzolgaltatas.Szolgaltatas_Idotartam.TimeOfDay);
 
             // Foglalás rögzítése
-            bool sikeres = foglalasService.RogzitesFoglalas(ugyfelId, dolgozoId, szolgaltatasId, kezdes, befejezes);
+            bool sikeres = databaseService.RogzitesFoglalas(ugyfelId, dolgozoId, szolgaltatasId, kezdes, befejezes);
 
             if (sikeres)
             {
@@ -98,7 +91,5 @@ namespace Szepsegipar
                 MessageBox.Show("A megadott időpontra már van foglalás!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-
     }
 }
