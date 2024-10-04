@@ -2,7 +2,7 @@
 using SzepsegSzalon;
 
 namespace Szepsegipar { 
-
+    //foglalas delete add, szolgaltatas add update
 public class DatabaseService
 {
     private string connectionString = "Server=127.0.0.1;Database=szepsegszalon; User Id=root; Password=;";
