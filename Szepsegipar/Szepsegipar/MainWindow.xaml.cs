@@ -110,5 +110,10 @@ namespace Szepsegipar
             }
         }
 
+        private void FoglalasMegtekinteseGomb_Click(object sender, RoutedEventArgs e)
+        {
+            FoglalasMegtekintesePage foglalasMegtekintesePage = new FoglalasMegtekintesePage();
+            this.Content = foglalasMegtekintesePage;
+        }
     }
 }
