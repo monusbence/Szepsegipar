@@ -28,7 +28,12 @@ namespace Szepsegipar
                 try
                 {
                     connection.Open();
-                    string query = "SELECT F_Id, SZ_Id, D_Id, U_Id, F_Kezdes, F_Befejezesk FROM foglalás";
+                    string query = @"SELECT f.F_Id, s.SZ_Kategoria, d.D_VezetekNev, d.D_KeresztNev, u.U_VezetekNev, u.U_KeresztNev, f.F_Kezdes, f.F_Befejezesk
+                             FROM foglalás f
+                             JOIN szolgáltatás s ON f.SZ_Id = s.SZ_ID
+                             JOIN dolgozók d ON f.D_Id = d.D_ID
+                             JOIN ügyfél u ON f.U_Id = u.U_ID";
+
                     MySqlCommand command = new MySqlCommand(query, connection);
 
                     using (MySqlDataReader reader = command.ExecuteReader())
@@ -38,12 +43,14 @@ namespace Szepsegipar
                             Foglalas foglalas = new Foglalas
                             {
                                 Foglalas_Id = reader.GetInt32(0),
-                                Szolgaltatas_Id = reader.GetInt32(1),
-                                Dolgozo_Id = reader.GetInt32(2),
-                                Ugyfel_Id = reader.GetInt32(3),
-                                Foglalas_Kezdes = reader.GetDateTime(4),
-                                Foglalas_Befejezes = reader.GetDateTime(5),
-                                IsSelected = false 
+                                Szolgaltatas_Kategoria = reader.GetString(1),
+                                Dolgozo_VezetekNev = reader.GetString(2),
+                                Dolgozo_KeresztNev = reader.GetString(3),
+                                Ugyfel_VezetekNev = reader.GetString(4),
+                                Ugyfel_KeresztNev = reader.GetString(5),
+                                Foglalas_Kezdes = reader.GetDateTime(6),
+                                Foglalas_Befejezes = reader.GetDateTime(7),
+                                IsSelected = false
                             };
                             Foglalasok.Add(foglalas);
                         }
@@ -55,8 +62,9 @@ namespace Szepsegipar
                 }
             }
 
-            FoglalasListView.ItemsSource = Foglalasok; 
+            FoglalasListView.ItemsSource = Foglalasok;
         }
+
 
         private void FrissitesGomb_Click(object sender, RoutedEventArgs e)
         {
@@ -103,11 +111,14 @@ namespace Szepsegipar
     public class Foglalas
     {
         public int Foglalas_Id { get; set; }
-        public int Szolgaltatas_Id { get; set; }
-        public int Dolgozo_Id { get; set; }
-        public int Ugyfel_Id { get; set; }
+        public string Szolgaltatas_Kategoria { get; set; }
+        public string Dolgozo_VezetekNev { get; set; }
+        public string Dolgozo_KeresztNev { get; set; }
+        public string Ugyfel_VezetekNev { get; set; }
+        public string Ugyfel_KeresztNev { get; set; }
         public DateTime Foglalas_Kezdes { get; set; }
         public DateTime Foglalas_Befejezes { get; set; }
-        public bool IsSelected { get; set; } 
+        public bool IsSelected { get; set; }
     }
+
 }

@@ -35,9 +35,9 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="Foglalás ID" Width="100" DisplayMemberBinding="{Binding Foglalas_Id}"/>
-                    <GridViewColumn Header="Szolgáltatás ID" Width="120" DisplayMemberBinding="{Binding Szolgaltatas_Id}"/>
-                    <GridViewColumn Header="Dolgozó ID" Width="100" DisplayMemberBinding="{Binding Dolgozo_Id}"/>
-                    <GridViewColumn Header="Ügyfél ID" Width="100" DisplayMemberBinding="{Binding Ugyfel_Id}"/>
+                    <GridViewColumn Header="Szolgáltatás" Width="120" DisplayMemberBinding="{Binding Szolgaltatas_Kategoria}"/>
+                    <GridViewColumn Header="Dolgozó" Width="150" DisplayMemberBinding="{Binding Dolgozo_VezetekNev}"/>
+                    <GridViewColumn Header="Ügyfél" Width="150" DisplayMemberBinding="{Binding Ugyfel_VezetekNev}"/>
                     <GridViewColumn Header="Kezdés" Width="120" DisplayMemberBinding="{Binding Foglalas_Kezdes}"/>
                     <GridViewColumn Header="Befejezés" Width="120" DisplayMemberBinding="{Binding Foglalas_Befejezes}"/>
                 </GridView>
