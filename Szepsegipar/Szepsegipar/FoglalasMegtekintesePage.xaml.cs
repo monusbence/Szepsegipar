@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient; // Ensure you have the MySql.Data package installed
+﻿using MySql.Data.MySqlClient; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace Szepsegipar
         public FoglalasMegtekintesePage()
         {
             InitializeComponent();
-            LoadFoglalasok(); // Load the data when the page is initialized
+            LoadFoglalasok(); 
         }
 
         private void LoadFoglalasok()
@@ -43,7 +43,7 @@ namespace Szepsegipar
                                 Ugyfel_Id = reader.GetInt32(3),
                                 Foglalas_Kezdes = reader.GetDateTime(4),
                                 Foglalas_Befejezes = reader.GetDateTime(5),
-                                IsSelected = false // Default value for checkbox
+                                IsSelected = false 
                             };
                             Foglalasok.Add(foglalas);
                         }
@@ -55,12 +55,12 @@ namespace Szepsegipar
                 }
             }
 
-            FoglalasListView.ItemsSource = Foglalasok; // Bind the data to the ListView
+            FoglalasListView.ItemsSource = Foglalasok; 
         }
 
         private void FrissitesGomb_Click(object sender, RoutedEventArgs e)
         {
-            LoadFoglalasok(); // Refresh the list
+            LoadFoglalasok(); 
         }
 
         private void TorlesGomb_Click(object sender, RoutedEventArgs e)
@@ -84,7 +84,7 @@ namespace Szepsegipar
                     }
                 }
 
-                LoadFoglalasok(); // Refresh the list after deletion
+                LoadFoglalasok(); 
             }
             else
             {
@@ -94,7 +94,7 @@ namespace Szepsegipar
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            // Navigate back to the MainWindow
+            
             var mainWindow = new MainWindow();
             Application.Current.MainWindow.Content = mainWindow.Content;
         }
@@ -108,6 +108,6 @@ namespace Szepsegipar
         public int Ugyfel_Id { get; set; }
         public DateTime Foglalas_Kezdes { get; set; }
         public DateTime Foglalas_Befejezes { get; set; }
-        public bool IsSelected { get; set; } // New property for checkbox
+        public bool IsSelected { get; set; } 
     }
 }
