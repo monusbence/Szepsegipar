@@ -91,6 +91,13 @@ namespace Szepsegipar
                 MessageBox.Show("Nincs kiválasztva törlendő foglalás.");
             }
         }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Navigate back to the MainWindow
+            var mainWindow = new MainWindow();
+            Application.Current.MainWindow.Content = mainWindow.Content;
+        }
     }
 
     public class Foglalas

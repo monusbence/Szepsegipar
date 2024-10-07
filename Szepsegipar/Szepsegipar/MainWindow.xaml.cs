@@ -115,5 +115,11 @@ namespace Szepsegipar
             FoglalasMegtekintesePage foglalasMegtekintesePage = new FoglalasMegtekintesePage();
             this.Content = foglalasMegtekintesePage;
         }
+        private void MegtekintesGomb_Click(object sender, RoutedEventArgs e)
+        {
+            // Navigate to the FoglalasMegtekintesePage
+            FoglalasMegtekintesePage foglalasMegtekintesePage = new FoglalasMegtekintesePage();
+            MainFrame.Content = foglalasMegtekintesePage; // Set the new page to the Frame
+        }
     }
 }
