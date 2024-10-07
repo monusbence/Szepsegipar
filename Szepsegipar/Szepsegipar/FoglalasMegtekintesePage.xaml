@@ -1,22 +1,58 @@
 ﻿<Page x:Class="Szepsegipar.FoglalasMegtekintesePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      Title="Foglalások megtekintése">
-    <Grid Margin="20">
-        <TextBlock Text="Foglalások" FontSize="24" FontWeight="Bold" 
-                   HorizontalAlignment="Center" Margin="0,20,0,20"/>
+      Title="Foglalások megtekintése"
+      Background="#F3F4F6">
 
-        <ListView Name="FoglalasListView">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Foglalások" FontSize="28" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,20,0,20" 
+                   Foreground="#333"/>
+
+        <ListView Name="FoglalasListView" Grid.Row="1" Margin="0,0,0,20" 
+                   Background="White" BorderBrush="#D3D3D3" BorderThickness="1" 
+                   Padding="10" FontSize="14" FontFamily="Segoe UI">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Foglalás ID" Width="120" DisplayMemberBinding="{Binding Foglalas_Id}"/>
+                    <GridViewColumn Header="Választ" Width="60">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected}" Width="20" Height="20"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Foglalás ID" Width="100" DisplayMemberBinding="{Binding Foglalas_Id}"/>
                     <GridViewColumn Header="Szolgáltatás ID" Width="120" DisplayMemberBinding="{Binding Szolgaltatas_Id}"/>
-                    <GridViewColumn Header="Dolgozó ID" Width="120" DisplayMemberBinding="{Binding Dolgozo_Id}"/>
-                    <GridViewColumn Header="Ügyfél ID" Width="120" DisplayMemberBinding="{Binding Ugyfel_Id}"/>
+                    <GridViewColumn Header="Dolgozó ID" Width="100" DisplayMemberBinding="{Binding Dolgozo_Id}"/>
+                    <GridViewColumn Header="Ügyfél ID" Width="100" DisplayMemberBinding="{Binding Ugyfel_Id}"/>
                     <GridViewColumn Header="Kezdés" Width="120" DisplayMemberBinding="{Binding Foglalas_Kezdes}"/>
                     <GridViewColumn Header="Befejezés" Width="120" DisplayMemberBinding="{Binding Foglalas_Befejezes}"/>
                 </GridView>
             </ListView.View>
         </ListView>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right">
+            <Button Name="TorlesGomb" Content="Törlés" 
+                    Width="120" Height="40" 
+                    Margin="5" 
+                    Background="#E74C3C" Foreground="White" FontWeight="Bold" 
+                    FontSize="16" Padding="10,0" Click="TorlesGomb_Click"/>
+            <Button Name="ModositasGomb" Content="Módosítás" 
+                    Width="120" Height="40" 
+                    Margin="5" 
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" 
+                    FontSize="16" Padding="10,0"/>
+            <Button Name="FrissitesGomb" Content="Frissítés" 
+                    Width="120" Height="40" 
+                    Margin="5" 
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" 
+                    FontSize="16" Padding="10,0" Click="FrissitesGomb_Click"/>
+        </StackPanel>
     </Grid>
 </Page>

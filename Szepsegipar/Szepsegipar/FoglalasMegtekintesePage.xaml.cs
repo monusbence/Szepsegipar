@@ -1,45 +1,106 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient; // Ensure you have the MySql.Data package installed
+using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using MySql.Data.MySqlClient;
 
 namespace Szepsegipar
 {
     public partial class FoglalasMegtekintesePage : Page
     {
-        private string connectionString = "Server=127.0.0.1;Database=szepsegszalon;User ID=root;";
+        public List<Foglalas> Foglalasok { get; set; }
 
         public FoglalasMegtekintesePage()
         {
             InitializeComponent();
-            BetoltFoglalasok();
+            LoadFoglalasok(); // Load the data when the page is initialized
         }
 
-        private void BetoltFoglalasok()
+        private void LoadFoglalasok()
         {
-            try
+            Foglalasok = new List<Foglalas>();
+
+            string connectionString = "Server=127.0.0.1;Database=szepsegszalon;User ID=root;";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                using (MySqlConnection kapcsolat = new MySqlConnection(connectionString))
+                try
                 {
-                    kapcsolat.Open();
-                    string query = "SELECT f.F_ID AS Foglalas_Id, f.SZ_ID AS Szolgaltatas_Id, f.D_ID AS Dolgozo_Id, " +
-                                   "f.U_ID AS Ugyfel_Id, f.F_Kezdes AS Foglalas_Kezdes, f.F_Befejezesk AS Foglalas_Befejezes " +
-                                   "FROM foglalás f";
+                    connection.Open();
+                    string query = "SELECT F_Id, SZ_Id, D_Id, U_Id, F_Kezdes, F_Befejezesk FROM foglalás";
+                    MySqlCommand command = new MySqlCommand(query, connection);
 
-                    MySqlCommand parancs = new MySqlCommand(query, kapcsolat);
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(parancs);
-                    DataTable foglalasok = new DataTable();
-                    adapter.Fill(foglalasok);
-
-                    FoglalasListView.ItemsSource = foglalasok.DefaultView;
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Foglalas foglalas = new Foglalas
+                            {
+                                Foglalas_Id = reader.GetInt32(0),
+                                Szolgaltatas_Id = reader.GetInt32(1),
+                                Dolgozo_Id = reader.GetInt32(2),
+                                Ugyfel_Id = reader.GetInt32(3),
+                                Foglalas_Kezdes = reader.GetDateTime(4),
+                                Foglalas_Befejezes = reader.GetDateTime(5),
+                                IsSelected = false // Default value for checkbox
+                            };
+                            Foglalasok.Add(foglalas);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Hiba történt az adatbázis lekérdezése során: {ex.Message}");
                 }
             }
-            catch (Exception ex)
+
+            FoglalasListView.ItemsSource = Foglalasok; // Bind the data to the ListView
+        }
+
+        private void FrissitesGomb_Click(object sender, RoutedEventArgs e)
+        {
+            LoadFoglalasok(); // Refresh the list
+        }
+
+        private void TorlesGomb_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedFoglalasok = Foglalasok.Where(f => f.IsSelected).ToList();
+
+            if (selectedFoglalasok.Any())
             {
-                MessageBox.Show("Hiba történt a foglalások betöltésekor: " + ex.Message);
+                string connectionString = "Server=127.0.0.1;Database=szepsegszalon;User ID=root;";
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    foreach (var foglalas in selectedFoglalasok)
+                    {
+                        string deleteQuery = "DELETE FROM foglalás WHERE F_Id = @Foglalas_Id";
+                        MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection);
+                        deleteCommand.Parameters.AddWithValue("@Foglalas_Id", foglalas.Foglalas_Id);
+                        deleteCommand.ExecuteNonQuery();
+                    }
+                }
+
+                LoadFoglalasok(); // Refresh the list after deletion
+            }
+            else
+            {
+                MessageBox.Show("Nincs kiválasztva törlendő foglalás.");
             }
         }
+    }
+
+    public class Foglalas
+    {
+        public int Foglalas_Id { get; set; }
+        public int Szolgaltatas_Id { get; set; }
+        public int Dolgozo_Id { get; set; }
+        public int Ugyfel_Id { get; set; }
+        public DateTime Foglalas_Kezdes { get; set; }
+        public DateTime Foglalas_Befejezes { get; set; }
+        public bool IsSelected { get; set; } // New property for checkbox
     }
 }
