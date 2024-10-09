@@ -119,6 +119,10 @@ namespace Szepsegipar
         public DateTime Foglalas_Kezdes { get; set; }
         public DateTime Foglalas_Befejezes { get; set; }
         public bool IsSelected { get; set; }
+
+
+        public string DolgozoTeljesNev => $"{Dolgozo_VezetekNev} {Dolgozo_KeresztNev}";
+        public string UgyfelTeljesNev => $"{Ugyfel_VezetekNev} {Ugyfel_KeresztNev}";
     }
 
 }
