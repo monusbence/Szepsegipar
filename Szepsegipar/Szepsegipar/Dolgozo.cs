@@ -18,5 +18,11 @@ namespace SzepsegSzalon
         public int Szolgaltatas { get; set; }
         public int Jogkor { get; set; }
 
+
+        public string TeljesNev
+        {
+            get { return $"{Dolgozo_VezetekNev} {Dolgozo_KeresztNev}"; }
+        }
+
     }
 }

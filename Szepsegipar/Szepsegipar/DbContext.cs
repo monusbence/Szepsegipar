@@ -71,6 +71,33 @@ public class DatabaseService
         return szolgaltatasok;
     }
 
+        public List<TimeSpan> GetFoglalasokByDolgozoAndDatum(int dolgozoId, DateTime datum)
+        {
+            List<TimeSpan> foglaltIdopontok = new List<TimeSpan>();
+
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                string query = "SELECT F_Kezdes FROM foglalás WHERE D_ID = @dolgozoId AND DATE(F_Kezdes) = @datum";
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@dolgozoId", dolgozoId);
+                    command.Parameters.AddWithValue("@datum", datum.ToString("yyyy-MM-dd"));
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            DateTime kezdete = reader.GetDateTime("F_Kezdes");
+                            foglaltIdopontok.Add(kezdete.TimeOfDay);
+                        }
+                    }
+                }
+            }
+
+            return foglaltIdopontok;
+        }
+
         // Foglalás rögzítése
         public bool RogzitesFoglalas(int ugyfelId, int dolgozoId, int szolgaltatasId, DateTime kezdes, DateTime befejezes)
         {

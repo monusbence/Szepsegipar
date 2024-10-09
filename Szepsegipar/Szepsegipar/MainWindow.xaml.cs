@@ -23,13 +23,16 @@ namespace Szepsegipar
             BetoltDolgozok();
             BetoltSzolgaltatasok();
             BetoltIdopontok();
+
+            DolgozoComboBox.SelectionChanged += (s, e) => BetoltIdopontok();
+            DatumPicker.SelectedDateChanged += (s, e) => BetoltIdopontok();
         }
 
         private void BetoltDolgozok()
         {
             dolgozok = databaseService.GetDolgozok();
             DolgozoComboBox.ItemsSource = dolgozok;
-            DolgozoComboBox.DisplayMemberPath = "Dolgozo_KeresztNev"; // Megjeleníti a dolgozók keresztnevét
+            DolgozoComboBox.DisplayMemberPath = "TeljesNev"; // Teljes név jelenik meg
             DolgozoComboBox.SelectedValuePath = "Dolgozo_Id"; // Érték az ID lesz
         }
 
@@ -43,23 +46,39 @@ namespace Szepsegipar
 
         private void BetoltIdopontok()
         {
-            IdoComboBox.ItemsSource = GetIdopontok();
+            if (DolgozoComboBox.SelectedValue == null || DatumPicker.SelectedDate == null)
+            {
+                IdoComboBox.ItemsSource = null;
+                return;
+            }
+
+            int selectedDolgozoId = (int)DolgozoComboBox.SelectedValue;
+            DateTime selectedDatum = (DateTime)DatumPicker.SelectedDate;
+
+            List<string> szabadIdopontok = GetSzabadIdopontok(selectedDolgozoId, selectedDatum);
+            IdoComboBox.ItemsSource = szabadIdopontok;
         }
 
-        private List<string> GetIdopontok()
+        private List<string> GetSzabadIdopontok(int dolgozoId, DateTime datum)
         {
-            List<string> idopontok = new List<string>();
+            List<TimeSpan> foglaltIdopontok = databaseService.GetFoglalasokByDolgozoAndDatum(dolgozoId, datum);
+            List<string> szabadIdopontok = new List<string>();
+
             TimeSpan kezdes = new TimeSpan(8, 0, 0); // 8:00
             TimeSpan veg = new TimeSpan(15, 30, 0);  // 15:30
             TimeSpan lepeskoz = new TimeSpan(0, 30, 0); // 30 perc
 
             for (TimeSpan ido = kezdes; ido <= veg; ido = ido.Add(lepeskoz))
             {
-                idopontok.Add(ido.ToString(@"hh\:mm"));
+                if (!foglaltIdopontok.Contains(ido))
+                {
+                    szabadIdopontok.Add(ido.ToString(@"hh\:mm"));
+                }
             }
 
-            return idopontok;
+            return szabadIdopontok;
         }
+
 
 
         private void RogzitesGomb_Click(object sender, RoutedEventArgs e)
