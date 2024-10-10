@@ -4,7 +4,6 @@
       Title="Foglalások megtekintése"
       Background="#F3F4F6"
       MaxWidth="990" MaxHeight="550">
-      
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -18,12 +17,11 @@
                HorizontalAlignment="Center" VerticalAlignment="Center" 
                Grid.RowSpan="3" />
 
-        <!-- Back Button -->
-        <Button Name="BackButton" Content="←" 
-                Width="50" Height="30" 
-                HorizontalAlignment="Left" VerticalAlignment="Top" 
-                Margin="0,0,0,20" Click="BackButton_Click"
-                Background="#007ACC" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <!-- Vissza gomb helyett arrow kép -->
+        <Image Source="kekgomb.png" Width="40" Height="35" 
+               HorizontalAlignment="Left" VerticalAlignment="Top" 
+               Margin="0,0,0,20" MouseDown="BackButton_Click"
+               Cursor="Hand" />
 
         <TextBlock Text="Foglalások" FontSize="28" FontWeight="Bold" 
                    HorizontalAlignment="Center" Margin="0,20,0,20" 

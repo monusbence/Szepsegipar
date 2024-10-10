@@ -10,7 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="arrow.png" />
     <None Remove="image.ico" />
+    <None Remove="kekgomb.png" />
     <None Remove="logo.png" />
   </ItemGroup>
 
@@ -25,7 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="image.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="kekgomb.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="logo.png">
