@@ -2,14 +2,21 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Foglalások megtekintése"
-      Background="#F3F4F6">
+      Background="#F3F4F6"
+      MaxWidth="990" MaxHeight="550">
+      
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
+        <!-- Háttérkép elmosódva -->
+        <Image Source="logo.png" Stretch="UniformToFill" Opacity="0.1" 
+               HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Grid.RowSpan="3" />
 
         <!-- Back Button -->
         <Button Name="BackButton" Content="←" 
@@ -22,9 +29,9 @@
                    HorizontalAlignment="Center" Margin="0,20,0,20" 
                    Foreground="#333"/>
 
-        <ListView Name="FoglalasListView" Grid.Row="1" Margin="0,0,0,20" 
+        <ListView Name="FoglalasListView" Grid.Row="1" Margin="0,0,0,0" 
                    Background="White" BorderBrush="#D3D3D3" BorderThickness="1" 
-                   Padding="10" FontSize="14" FontFamily="Segoe UI">
+                   Padding="10" FontSize="14" FontFamily="Segoe UI" MaxHeight="300">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Választ" Width="60">
