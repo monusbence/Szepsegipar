@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Szepsegipar"
         mc:Ignorable="d"
-        Title="Szépségszalon" Height="500" Width="400"
+        Title="Szépségszalon" Height="610" Width="400"
         MinHeight="500" MinWidth="400" SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip">
 
     <Frame Name="MainFrame" NavigationUIVisibility="Hidden">
@@ -20,9 +20,8 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Text="Szépségszalon" FontSize="24" FontWeight="Bold"
-                           HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,20" 
-                           Foreground="#333" />
+                <!-- Logó beillesztése -->
+                <Image Grid.Row="0" Source="logo.png" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,00,0,00" />
 
                 <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,10">
                     <Label Content="Szolgáltatás:" FontWeight="Medium" Foreground="#666"/>
