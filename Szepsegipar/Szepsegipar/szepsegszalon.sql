@@ -60,7 +60,7 @@ INSERT INTO `dolgozók` (`D_VezetekNev`, `D_KeresztNev`, `D_Telefon`, `D_Email`,
 ('Horváth', 'Béla', '06303334444', 'bela.horvath@example.com', 0, 3, 0),
 ('Molnár', 'Júlia', '06301231234', 'julia.molnar@example.com', 1, 2, 1),
 ('Kiss', 'Róbert', '06305556666', 'robert.kiss@example.com', 1, 3, 1),
-('Németh', 'Attila', '06301234566', 'attila.nemeth@example.com', 1, 1, 0),
+('Németh', 'Attila', '06301234566', 'attila.nemeth@example.com', 1, 1, 1)
 ('Török', 'Petra', '06307775555', 'petra.torok@example.com', 0, 1, 0),
 ('Papp', 'Miklós', '06304443333', 'miklos.papp@example.com', 1, 3, 1);
 
