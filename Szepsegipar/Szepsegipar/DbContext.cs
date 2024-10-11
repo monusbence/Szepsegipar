@@ -20,7 +20,7 @@ public class DatabaseService
         using (var connection = GetConnection())
         {
             connection.Open();
-            string query = "SELECT D_ID, D_VezetekNev, D_KeresztNev FROM dolgozók WHERE Statusz = 1";
+            string query = "SELECT D_ID, D_VezetekNev, D_KeresztNev, Szolgáltatása FROM dolgozók WHERE Statusz = 1";
             using (var command = new MySqlCommand(query, connection))
             {
                 using (var reader = command.ExecuteReader())
@@ -31,7 +31,8 @@ public class DatabaseService
                         {
                             Dolgozo_Id = reader.GetInt32("D_ID"),
                             Dolgozo_VezetekNev = reader.GetString("D_VezetekNev"),
-                            Dolgozo_KeresztNev = reader.GetString("D_KeresztNev")
+                            Dolgozo_KeresztNev = reader.GetString("D_KeresztNev"),
+                            Szolgaltatas = reader.GetInt32("Szolgáltatása")
                         });
                     }
                 }
