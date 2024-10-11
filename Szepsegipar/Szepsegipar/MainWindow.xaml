@@ -26,7 +26,7 @@
 
                 <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,10">
                     <Label Content="Szolgáltatás:" FontWeight="Medium" Foreground="#666"/>
-                    <ComboBox Width="250" Name="SzolgaltatasComboBox"
+                    <ComboBox Width="250" SelectionChanged="SzolgaltatasComboBox_SelectionChanged" Name="SzolgaltatasComboBox"
                               ItemsSource="{Binding Services}" SelectedItem="{Binding SelectedService}" 
                               BorderThickness="1" BorderBrush="#D3D3D3" Padding="8" 
                               Background="#F9F9F9" FontSize="14"/>

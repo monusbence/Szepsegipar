@@ -23,17 +23,32 @@ namespace Szepsegipar
             BetoltDolgozok();
             BetoltSzolgaltatasok();
             BetoltIdopontok();
-
+            SzolgaltatasComboBox.SelectionChanged += SzolgaltatasComboBox_SelectionChanged;
             DolgozoComboBox.SelectionChanged += (s, e) => BetoltIdopontok();
             DatumPicker.SelectedDateChanged += (s, e) => BetoltIdopontok();
         }
 
+        private void SzolgaltatasComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BetoltDolgozok();
+        }
+
         private void BetoltDolgozok()
         {
-            dolgozok = databaseService.GetDolgozok();
+            if (SzolgaltatasComboBox.SelectedValue == null)
+            {
+                DolgozoComboBox.ItemsSource = null;
+                return;
+            }
+
+            int selectedSzolgaltatasId = (int)SzolgaltatasComboBox.SelectedValue;
+            dolgozok = databaseService.GetDolgozok()
+                         .Where(d => d.Szolgaltatas == selectedSzolgaltatasId)
+                         .ToList();
+
             DolgozoComboBox.ItemsSource = dolgozok;
-            DolgozoComboBox.DisplayMemberPath = "TeljesNev"; 
-            DolgozoComboBox.SelectedValuePath = "Dolgozo_Id"; 
+            DolgozoComboBox.DisplayMemberPath = "TeljesNev";
+            DolgozoComboBox.SelectedValuePath = "Dolgozo_Id";
         }
 
         private void BetoltSzolgaltatasok()
