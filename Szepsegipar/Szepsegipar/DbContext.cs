@@ -20,7 +20,7 @@ public class DatabaseService
         using (var connection = GetConnection())
         {
             connection.Open();
-            string query = "SELECT D_ID, D_VezetekNev, D_KeresztNev FROM dolgozók";
+            string query = "SELECT D_ID, D_VezetekNev, D_KeresztNev FROM dolgozók WHERE Statusz = 1";
             using (var command = new MySqlCommand(query, connection))
             {
                 using (var reader = command.ExecuteReader())

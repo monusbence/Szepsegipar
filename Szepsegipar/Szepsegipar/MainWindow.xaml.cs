@@ -105,6 +105,8 @@ namespace Szepsegipar
                 return;
             }
 
+            
+
             // Szolgáltatás időtartam meghatározása
             var selectedSzolgaltatas = szolgaltatasok.FirstOrDefault(s => s.Szolgaltatas_Id == szolgaltatasId);
             if (selectedSzolgaltatas == null)
