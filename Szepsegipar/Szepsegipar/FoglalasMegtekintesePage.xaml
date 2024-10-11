@@ -58,7 +58,7 @@
             <Button Name="ModositasGomb" Content="Módosítás" 
                     Width="120" Height="40" 
                     Margin="5" 
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" 
+                    Background=" #e6e6ff" Foreground="White" FontWeight="Bold" 
                     FontSize="16" Padding="10,0"/>
             <Button Name="FrissitesGomb" Content="Frissítés" 
                     Width="120" Height="40" 
